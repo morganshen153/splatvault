@@ -53,6 +53,51 @@ export interface AddToCollectionRequest {
   note?: string
 }
 
+export interface ListCollectionsResponse {
+  collections: any[]
+  total: number
+}
+
+export interface CollectionDetail {
+  id: string
+  projectId: string
+  name: string
+  description?: string
+  assetCount?: number
+}
+
+export interface AddToCollectionResponse {
+  added: string[]
+  count: number
+}
+
+// Tags API
+export interface CreateTagRequest {
+  name: string
+  color?: string
+}
+
+export interface ListTagsResponse {
+  tags: Tag[]
+  total: number
+}
+
+export interface BatchTagRequest {
+  assetIds: string[]
+  tagIds: string[]
+}
+
+export interface BatchTagResponse {
+  tagged: { assetId: string; tagId: string }[]
+  count: number
+}
+
+// Export API
+export interface ExportRequest {
+  assetIds: string[]
+  format: 'json' | 'csv'
+}
+
 // Import API
 export interface ImportDirectoryRequest {
   path: string

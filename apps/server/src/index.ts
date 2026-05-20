@@ -4,6 +4,9 @@ import { join } from 'path'
 import healthRouter from './api/health.js'
 import assetsRouter from './api/assets.js'
 import searchRouter from './api/search.js'
+import collectionsRouter from './api/collections.js'
+import tagsRouter from './api/tags.js'
+import projectsRouter from './api/projects.js'
 import { getDb } from './db/connection.js'
 
 const app = express()
@@ -19,6 +22,9 @@ app.use('/thumbnails', express.static(join(process.cwd(), '../../data/thumbnails
 app.use('/api', healthRouter)
 app.use('/api', assetsRouter)
 app.use('/api', searchRouter)
+app.use('/api', collectionsRouter)
+app.use('/api', tagsRouter)
+app.use('/api', projectsRouter)
 
 // Ensure DB is initialized
 getDb()

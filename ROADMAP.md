@@ -2,10 +2,10 @@
 
 ## Status
 
-- Current stage: `P1 complete`
-- Next stage: `P2`
+- Current stage: `P4 complete`
+- Completed: `P0`, `P1`, `P2`, `P3`, `P4`
 
-## P0
+## P0 - Foundation
 
 Completed:
 
@@ -16,17 +16,9 @@ Completed:
 - SQLite initialization
 - `/api/health` connectivity
 
-## P1
+## P1 - Asset Storage
 
-Status:
-
-- completed
-
-Goal:
-
-- make asset storage and import foundations usable
-
-Planned work:
+Completed:
 
 - SQLite schema hardening
 - `AssetStore` CRUD stabilization
@@ -34,35 +26,42 @@ Planned work:
 - image thumbnail generation
 - basic asset listing UI support
 
-## P2
+## P2 - Product Experience
 
-Goal:
-
-- create a visible asset workspace
-
-Planned work:
+Completed:
 
 - import page
-- asset grid
-- asset detail page
-- project and collection structure
+- asset grid with thumbnails
+- asset detail modal
+- top navigation bar
+- stats cards on home page
 
-## P3
+## P3 - Independent Search
 
-Goal:
+Completed:
 
-- close the first search loop
+- `SearchEngine.ts` independent search layer
+- `GET /api/search` endpoint
+- keyword, type, path, date range filters
+- frontend updated to new search API
+- thumbnail URL normalization
+- `dateTo` end-of-day semantics
 
-Planned work:
+## P4 - Batch Workflow (completed)
 
-- text-to-asset search
-- basic video search foundation
-- image similarity foundation
-- search result display and filtering
+Completed:
+
+- multi-select on search and asset pages
+- batch add to collection (existing or create new)
+- batch tag (existing tags or create new)
+- batch export (JSON)
+- collection management API
+- tag management API
+- project management API
 
 ## Later
 
 - stronger multimodal search
-- better batch workflows
+- video frame indexing
 - advanced export and review flows
 - optional Pro packaging
