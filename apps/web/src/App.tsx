@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { HealthResponse } from '@splatvault/shared-types'
+import { AssetList } from './components/AssetList.js'
 
 const API_BASE = '/api'
 
 function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'status' | 'assets'>('status')
 
   useEffect(() => {
     fetch(`${API_BASE}/health`)
@@ -18,7 +20,7 @@ function App() {
   return (
     <div style={{ padding: '2rem', fontFamily: 'system-ui, sans-serif' }}>
       <h1>SplatVault</h1>
-      <p>多模态资产检索与工作流平台</p>
+      <p>local-first multimodal asset search for 3D, video, and scan teams</p>
 
       {loading && <p>检查服务状态...</p>}
 
@@ -36,11 +38,32 @@ function App() {
         </div>
       )}
 
-      <nav style={{ marginTop: '2rem' }}>
-        <a href="/search" style={{ marginRight: '1rem' }}>搜索</a>
-        <a href="/import" style={{ marginRight: '1rem' }}>导入</a>
-        <a href="/projects">项目</a>
+      <nav style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
+        <button onClick={() => setActiveTab('status')} style={{
+          padding: '0.5rem 1rem',
+          background: activeTab === 'status' ? '#007acc' : '#f0f0f0',
+          color: activeTab === 'status' ? '#fff' : '#333',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}>
+          状态
+        </button>
+        <button onClick={() => setActiveTab('assets')} style={{
+          padding: '0.5rem 1rem',
+          background: activeTab === 'assets' ? '#007acc' : '#f0f0f0',
+          color: activeTab === 'assets' ? '#fff' : '#333',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}>
+          资产列表
+        </button>
       </nav>
+
+      <div style={{ marginTop: '1rem' }}>
+        {activeTab === 'assets' && <AssetList />}
+      </div>
     </div>
   )
 }
