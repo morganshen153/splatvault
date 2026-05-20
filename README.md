@@ -71,7 +71,8 @@ Planned split:
 Current development stage:
 
 - P0 completed
-- P1 ready to begin
+- P1 completed
+- P2 next
 
 P0 currently covers:
 
@@ -81,6 +82,13 @@ P0 currently covers:
 - shared TypeScript types
 - health check API
 - SQLite initialization
+
+P1 currently covers:
+
+- asset schema and storage foundation
+- typed `AssetStore` mapping
+- thumbnail generation path
+- basic asset listing support
 
 ## Repository Structure
 

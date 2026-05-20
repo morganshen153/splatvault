@@ -4,9 +4,10 @@ import type { Asset } from '@splatvault/shared-types'
 interface AssetListProps {
   apiBase?: string
   refreshKey?: number
+  onAssetClick?: (asset: Asset) => void
 }
 
-export function AssetList({ apiBase = '/api', refreshKey }: AssetListProps) {
+export function AssetList({ apiBase = '/api', refreshKey, onAssetClick }: AssetListProps) {
   const [assets, setAssets] = useState<Asset[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -37,12 +38,17 @@ export function AssetList({ apiBase = '/api', refreshKey }: AssetListProps) {
       padding: '1rem'
     }}>
       {assets.map(asset => (
-        <div key={asset.id} style={{
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          padding: '0.75rem',
-          background: '#fff'
-        }}>
+        <div
+          key={asset.id}
+          onClick={() => onAssetClick?.(asset)}
+          style={{
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            padding: '0.75rem',
+            background: '#fff',
+            cursor: onAssetClick ? 'pointer' : 'default'
+          }}
+        >
           {asset.thumbnailPath ? (
             <img
               src={asset.thumbnailPath}

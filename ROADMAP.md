@@ -2,8 +2,8 @@
 
 ## Status
 
-- Current stage: `P0 complete`
-- Next stage: `P1`
+- Current stage: `P1 complete`
+- Next stage: `P2`
 
 ## P0
 
@@ -17,6 +17,10 @@ Completed:
 - `/api/health` connectivity
 
 ## P1
+
+Status:
+
+- completed
 
 Goal:
 

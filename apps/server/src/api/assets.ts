@@ -6,12 +6,25 @@ const router: express.IRouter = Router()
 const assetStore = new AssetStore()
 
 router.get('/assets', (req: Request, res: Response) => {
-  const { type, limit, offset } = req.query
-  const assets = assetStore.listAssets({
-    type: type as 'image' | 'video' | 'text' | undefined,
-    limit: limit ? parseInt(limit as string) : undefined,
-    offset: offset ? parseInt(offset as string) : undefined
-  })
+  const { type, q, limit, offset } = req.query
+  let assets: Asset[] = []
+
+  if (q) {
+    // 搜索模式：按文件名模糊匹配
+    assets = assetStore.searchAssets({
+      keyword: q as string,
+      type: type as 'image' | 'video' | 'text' | undefined,
+      limit: limit ? parseInt(limit as string) : undefined,
+      offset: offset ? parseInt(offset as string) : undefined
+    })
+  } else {
+    // 列表模式
+    assets = assetStore.listAssets({
+      type: type as 'image' | 'video' | 'text' | undefined,
+      limit: limit ? parseInt(limit as string) : undefined,
+      offset: offset ? parseInt(offset as string) : undefined
+    })
+  }
 
   const response: ListAssetsResponse = {
     assets,

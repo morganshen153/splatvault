@@ -136,6 +136,32 @@ export class AssetStore {
     return (db.prepare('SELECT COUNT(*) as count FROM assets').get() as { count: number }).count
   }
 
+  searchAssets(options?: { keyword?: string; type?: AssetType; limit?: number; offset?: number }): Asset[] {
+    const db = getDb()
+    const params: any[] = []
+    let conditions: string[] = []
+
+    if (options?.keyword) {
+      conditions.push('filename LIKE ?')
+      params.push(`%${options.keyword}%`)
+    }
+
+    if (options?.type) {
+      conditions.push('type = ?')
+      params.push(options.type)
+    }
+
+    let query = 'SELECT * FROM assets'
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ')
+    }
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?'
+    params.push(options?.limit ?? 50, options?.offset ?? 0)
+
+    const rows = db.prepare(query).all(...params) as AssetRow[]
+    return rows.map(mapDbRowToAsset)
+  }
+
   private getAssetRow(id: string): AssetRow | undefined {
     const db = getDb()
     return db.prepare('SELECT * FROM assets WHERE id = ?').get(id) as AssetRow | undefined
