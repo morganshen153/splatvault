@@ -8,10 +8,9 @@ build/
 *.tsbuildinfo
 
 # Data
-data/*.db
-data/*.db-journal
-data/*.db-shm
-data/*.db-wal
+data/*
+!data/.gitkeep
+!data/thumbnails/
 data/thumbnails/*
 !data/thumbnails/.gitkeep
 
