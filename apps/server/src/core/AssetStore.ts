@@ -2,13 +2,27 @@ import { getDb } from '../db/connection.js'
 import type { Asset, AssetType } from '@splatvault/shared-types'
 import crypto from 'crypto'
 import { statSync, existsSync, unlinkSync } from 'fs'
-import { basename, join } from 'path'
+import { basename } from 'path'
 import { ThumbnailService } from './ThumbnailService.js'
 
 const thumbnailService = new ThumbnailService()
 
+interface AssetRow {
+  id: string
+  type: AssetType
+  path: string
+  filename: string
+  size: number
+  created_at: number
+  modified_at: number
+  thumbnail_path?: string | null
+  duration?: number | null
+  frame_count?: number | null
+  indexed_at?: number | null
+}
+
 // Helper to map DB row to Asset type
-function mapDbRowToAsset(row: any): Asset {
+function mapDbRowToAsset(row: AssetRow): Asset {
   return {
     id: row.id,
     type: row.type,
@@ -17,10 +31,10 @@ function mapDbRowToAsset(row: any): Asset {
     size: row.size,
     createdAt: row.created_at,
     modifiedAt: row.modified_at,
-    thumbnailPath: row.thumbnail_path,
-    duration: row.duration,
-    frameCount: row.frame_count,
-    indexedAt: row.indexed_at
+    thumbnailPath: row.thumbnail_path ? thumbnailService.getThumbnailUrl(row.id) : undefined,
+    duration: row.duration ?? undefined,
+    frameCount: row.frame_count ?? undefined,
+    indexedAt: row.indexed_at ?? undefined,
   }
 }
 
@@ -60,18 +74,17 @@ export class AssetStore {
       }
     }
 
-    return asset
+    return this.getAsset(asset.id) ?? asset
   }
 
   getAsset(id: string): Asset | undefined {
-    const db = getDb()
-    const row = db.prepare('SELECT * FROM assets WHERE id = ?').get(id)
+    const row = this.getAssetRow(id)
     return row ? mapDbRowToAsset(row) : undefined
   }
 
   getByPath(path: string): Asset | undefined {
     const db = getDb()
-    const row = db.prepare('SELECT * FROM assets WHERE path = ?').get(path)
+    const row = db.prepare('SELECT * FROM assets WHERE path = ?').get(path) as AssetRow | undefined
     return row ? mapDbRowToAsset(row) : undefined
   }
 
@@ -90,18 +103,18 @@ export class AssetStore {
     query += ' LIMIT ? OFFSET ?'
     params.push(limit, offset)
 
-    const rows = db.prepare(query).all(...params) as any[]
+    const rows = db.prepare(query).all(...params) as AssetRow[]
     return rows.map(mapDbRowToAsset)
   }
 
   deleteAsset(id: string): boolean {
     const db = getDb()
-    const asset = this.getAsset(id)
-    if (!asset) return false
+    const row = this.getAssetRow(id)
+    if (!row) return false
 
     // 删除缩略图文件
-    if (asset.thumbnailPath && existsSync(asset.thumbnailPath)) {
-      try { unlinkSync(asset.thumbnailPath) } catch {}
+    if (row.thumbnail_path && existsSync(row.thumbnail_path)) {
+      try { unlinkSync(row.thumbnail_path) } catch {}
     }
 
     db.prepare('DELETE FROM assets WHERE id = ?').run(id)
@@ -121,5 +134,10 @@ export class AssetStore {
   count(): number {
     const db = getDb()
     return (db.prepare('SELECT COUNT(*) as count FROM assets').get() as { count: number }).count
+  }
+
+  private getAssetRow(id: string): AssetRow | undefined {
+    const db = getDb()
+    return db.prepare('SELECT * FROM assets WHERE id = ?').get(id) as AssetRow | undefined
   }
 }
