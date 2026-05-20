@@ -1,4 +1,5 @@
 import type { Asset } from '@splatvault/shared-types'
+import { formatDateTime } from '../utils/time.js'
 
 interface AssetDetailProps {
   asset: Asset
@@ -8,8 +9,6 @@ interface AssetDetailProps {
 }
 
 export function AssetDetail({ asset, onClose, onDelete, apiBase = '/api' }: AssetDetailProps) {
-  const formatDate = (ts: number) => new Date(ts).toLocaleString('zh-CN')
-
   const handleDelete = async () => {
     if (!onDelete) return
     if (!window.confirm(`确认删除 "${asset.filename}"？`)) return
@@ -87,10 +86,10 @@ export function AssetDetail({ asset, onClose, onDelete, apiBase = '/api' }: Asse
             <strong>路径：</strong>{asset.path}
           </p>
           <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
-            <strong>创建时间：</strong>{formatDate(asset.createdAt)}
+            <strong>创建时间：</strong>{formatDateTime(asset.createdAt)}
           </p>
           <p style={{ margin: '0.25rem 0', fontSize: '0.9rem' }}>
-            <strong>修改时间：</strong>{formatDate(asset.modifiedAt)}
+            <strong>修改时间：</strong>{formatDateTime(asset.modifiedAt)}
           </p>
         </div>
 
