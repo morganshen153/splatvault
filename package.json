@@ -1,0 +1,18 @@
+{
+  "name": "splatvault",
+  "version": "0.1.0",
+  "private": true,
+  "description": "多模态资产检索与工作流平台",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @splatvault/server dev & pnpm --filter @splatvault/web dev",
+    "build": "pnpm --filter @splatvault/server build && pnpm --filter @splatvault/web build",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3", "esbuild"]
+  }
+}
