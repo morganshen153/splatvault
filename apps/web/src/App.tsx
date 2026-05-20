@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { HealthResponse } from '@splatvault/shared-types'
 import { AssetList } from './components/AssetList.js'
+import { ImportForm } from './components/ImportForm.js'
 
 const API_BASE = '/api'
 
 function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'status' | 'assets'>('status')
+  const [activeTab, setActiveTab] = useState<'status' | 'assets' | 'import'>('status')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     fetch(`${API_BASE}/health`)
@@ -16,6 +18,11 @@ function App() {
       .catch(() => setHealth({ status: 'error', version: 'unknown', uptime: 0, dbConnected: false }))
       .finally(() => setLoading(false))
   }, [])
+
+  const handleImportSuccess = () => {
+    setRefreshKey(k => k + 1)
+    setActiveTab('assets')
+  }
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'system-ui, sans-serif' }}>
@@ -59,10 +66,21 @@ function App() {
         }}>
           资产列表
         </button>
+        <button onClick={() => setActiveTab('import')} style={{
+          padding: '0.5rem 1rem',
+          background: activeTab === 'import' ? '#007acc' : '#f0f0f0',
+          color: activeTab === 'import' ? '#fff' : '#333',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}>
+          导入
+        </button>
       </nav>
 
       <div style={{ marginTop: '1rem' }}>
-        {activeTab === 'assets' && <AssetList />}
+        {activeTab === 'assets' && <AssetList key={refreshKey} />}
+        {activeTab === 'import' && <ImportForm onSuccess={handleImportSuccess} />}
       </div>
     </div>
   )

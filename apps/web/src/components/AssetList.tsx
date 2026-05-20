@@ -3,14 +3,16 @@ import type { Asset } from '@splatvault/shared-types'
 
 interface AssetListProps {
   apiBase?: string
+  refreshKey?: number
 }
 
-export function AssetList({ apiBase = '/api' }: AssetListProps) {
+export function AssetList({ apiBase = '/api', refreshKey }: AssetListProps) {
   const [assets, setAssets] = useState<Asset[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    setLoading(true)
     fetch(`${apiBase}/assets`)
       .then(res => res.json())
       .then(data => {
@@ -21,7 +23,7 @@ export function AssetList({ apiBase = '/api' }: AssetListProps) {
         setError(err.message)
         setLoading(false)
       })
-  }, [apiBase])
+  }, [apiBase, refreshKey])
 
   if (loading) return <div>加载中...</div>
   if (error) return <div>错误: {error}</div>
