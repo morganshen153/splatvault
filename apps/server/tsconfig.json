@@ -1,8 +1,24 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": false,
     "outDir": "./dist",
-    "composite": false
+    "rootDir": "../..",
+    "paths": {
+      "@splatvault/shared-types": ["../../packages/shared-types/src"],
+      "@splatvault/embedding": ["../../packages/embedding/src"]
+    }
   },
-  "include": ["src/**/*", "../../packages/shared-types/src/**/*", "../../packages/embedding/src/**/*"]
+  "include": ["src/**/*", "../../packages/shared-types/src/**/*", "../../packages/embedding/src/**/*"],
+  "exclude": ["node_modules", "dist", "../../packages/shared-types/src/**/*.d.ts", "../../packages/embedding/src/**/*.d.ts"]
 }

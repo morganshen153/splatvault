@@ -1,5 +1,8 @@
 import { getDb } from '../db/connection.js'
+import { ThumbnailService } from './ThumbnailService.js'
 import type { SearchQuery } from '@splatvault/shared-types'
+
+const thumbnailService = new ThumbnailService()
 
 interface AssetRow {
   id: string
@@ -38,7 +41,7 @@ function mapDbRowToAsset(row: AssetRow): Asset {
     size: row.size,
     createdAt: row.created_at,
     modifiedAt: row.modified_at,
-    thumbnailPath: row.thumbnail_path ?? undefined,
+    thumbnailPath: row.thumbnail_path ? thumbnailService.getThumbnailUrl(row.id) : undefined,
     duration: row.duration ?? undefined,
     frameCount: row.frame_count ?? undefined,
     indexedAt: row.indexed_at ?? undefined,
@@ -80,8 +83,9 @@ export class SearchEngine {
     }
 
     if (options.dateTo) {
+      // 包含结束日整天：00:00:00 → 23:59:59.999
       conditions.push('created_at <= ?')
-      params.push(options.dateTo)
+      params.push(options.dateTo + 86400000 - 1)
     }
 
     let query = 'SELECT * FROM assets'
