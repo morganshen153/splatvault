@@ -1,7 +1,14 @@
 import type { Asset } from './asset.js'
 
 export interface SearchQuery {
-  text?: string
+  keyword?: string
+  type?: 'image' | 'video' | 'text'
+  path?: string
+  dateFrom?: number
+  dateTo?: number
+  limit?: number
+  offset?: number
+  // 未来扩展
   imageBase64?: string
   assetType?: 'image' | 'video' | 'text'
   projectId?: string

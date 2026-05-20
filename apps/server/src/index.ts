@@ -3,6 +3,7 @@ import cors from 'cors'
 import { join } from 'path'
 import healthRouter from './api/health.js'
 import assetsRouter from './api/assets.js'
+import searchRouter from './api/search.js'
 import { getDb } from './db/connection.js'
 
 const app = express()
@@ -17,6 +18,7 @@ app.use('/thumbnails', express.static(join(process.cwd(), '../../data/thumbnails
 // API routes
 app.use('/api', healthRouter)
 app.use('/api', assetsRouter)
+app.use('/api', searchRouter)
 
 // Ensure DB is initialized
 getDb()
