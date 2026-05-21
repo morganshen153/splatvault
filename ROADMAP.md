@@ -2,8 +2,8 @@
 
 ## Status
 
-- Current stage: `P4 complete`
-- Completed: `P0`, `P1`, `P2`, `P3`, `P4`
+- Current stage: `P5 complete`
+- Completed: `P0`, `P1`, `P2`, `P3`, `P4`, `P5`
 
 ## P0 - Foundation
 
@@ -58,6 +58,18 @@ Completed:
 - collection management API
 - tag management API
 - project management API
+- real backend export writing to disk
+- unified camelCase response format across all API endpoints
+
+## P5 - Real Batch Import (completed)
+
+Completed:
+
+- `ImportService` with scanning, parallel thumbnail generation, SQLite batch insert
+- `POST /api/import` accepting root path + file type config
+- `GET /api/import/status/:taskId` real-time progress polling
+- Batch Import UI showing progress, per-file status, error reporting
+- 150 real files imported from disk in one operation
 
 ## Later
 

@@ -8,6 +8,7 @@ import collectionsRouter from './api/collections.js'
 import tagsRouter from './api/tags.js'
 import projectsRouter from './api/projects.js'
 import exportRouter from './api/export.js'
+import importRouter from './api/import.js'
 import { getDb } from './db/connection.js'
 
 const app = express()
@@ -30,6 +31,7 @@ app.use('/api', collectionsRouter)
 app.use('/api', tagsRouter)
 app.use('/api', projectsRouter)
 app.use('/api', exportRouter)
+app.use('/api', importRouter)
 
 // Ensure DB is initialized
 getDb()
