@@ -98,6 +98,14 @@ export interface ExportRequest {
   format: 'json' | 'csv'
 }
 
+export interface ExportResponse {
+  success: boolean
+  exportId: string
+  filename: string
+  totalAssets: number
+  downloadUrl: string
+}
+
 // Import API
 export interface ImportDirectoryRequest {
   path: string

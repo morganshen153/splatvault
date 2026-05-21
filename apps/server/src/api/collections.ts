@@ -4,6 +4,83 @@ import crypto from 'crypto'
 
 const router: express.IRouter = Router()
 
+interface AssetRow {
+  id: string
+  type: string
+  path: string
+  filename: string
+  size: number
+  created_at: number
+  modified_at: number
+  thumbnail_path?: string | null
+  duration?: number | null
+  frame_count?: number | null
+  indexed_at?: number | null
+  added_at?: number
+  note?: string | null
+}
+
+interface AssetResponse {
+  id: string
+  type: string
+  path: string
+  filename: string
+  size: number
+  createdAt: number
+  modifiedAt: number
+  thumbnailPath?: string
+  duration?: number
+  frameCount?: number
+  indexedAt?: number
+  addedAt?: number
+  note?: string
+}
+
+function mapAssetRow(row: AssetRow): AssetResponse {
+  return {
+    id: row.id,
+    type: row.type,
+    path: row.path,
+    filename: row.filename,
+    size: row.size,
+    createdAt: row.created_at,
+    modifiedAt: row.modified_at,
+    thumbnailPath: row.thumbnail_path ? `/thumbnails/${row.id}.webp` : undefined,
+    duration: row.duration ?? undefined,
+    frameCount: row.frame_count ?? undefined,
+    indexedAt: row.indexed_at ?? undefined,
+    addedAt: row.added_at,
+    note: row.note ?? undefined,
+  }
+}
+
+interface CollectionRow {
+  id: string
+  project_id: string
+  name: string
+  description?: string | null
+  asset_count?: number
+  created_at?: number | null
+}
+
+interface CollectionResponse {
+  id: string
+  projectId: string
+  name: string
+  description?: string
+  assetCount?: number
+}
+
+function mapCollectionRow(row: CollectionRow): CollectionResponse {
+  return {
+    id: row.id,
+    projectId: row.project_id,
+    name: row.name,
+    description: row.description ?? undefined,
+    assetCount: row.asset_count,
+  }
+}
+
 // List collections
 router.get('/collections', (req: Request, res: Response) => {
   const { projectId } = req.query
@@ -22,7 +99,8 @@ router.get('/collections', (req: Request, res: Response) => {
   }
   query += ' GROUP BY c.id ORDER BY c.id DESC'
 
-  const collections = db.prepare(query).all(...params) as any[]
+  const rows = db.prepare(query).all(...params) as CollectionRow[]
+  const collections = rows.map(mapCollectionRow)
   res.json({ collections, total: collections.length })
 })
 
@@ -49,15 +127,15 @@ router.put('/collections/:id', (req: Request, res: Response) => {
   }
 
   const db = getDb()
-  const collection = db.prepare('SELECT * FROM collections WHERE id = ?').get(req.params.id) as any
-  if (!collection) {
+  const row = db.prepare('SELECT * FROM collections WHERE id = ?').get(req.params.id) as CollectionRow | undefined
+  if (!row) {
     return res.status(404).json({ error: 'Collection not found' })
   }
 
   db.prepare('UPDATE collections SET name = ?, description = ? WHERE id = ?')
     .run(name, description || null, req.params.id)
 
-  res.json({ id: req.params.id, name, description })
+  res.json({ id: req.params.id, projectId: row.project_id, name, description })
 })
 
 // Delete collection
@@ -73,18 +151,21 @@ router.delete('/collections/:id', (req: Request, res: Response) => {
 // Get collection with assets
 router.get('/collections/:id', (req: Request, res: Response) => {
   const db = getDb()
-  const collection = db.prepare('SELECT * FROM collections WHERE id = ?').get(req.params.id) as any
-  if (!collection) {
+  const collectionRow = db.prepare('SELECT * FROM collections WHERE id = ?').get(req.params.id) as CollectionRow | undefined
+  if (!collectionRow) {
     return res.status(404).json({ error: 'Collection not found' })
   }
 
-  const assets = db.prepare(`
+  const assetRows = db.prepare(`
     SELECT a.*, ca.added_at, ca.note
     FROM collection_assets ca
     JOIN assets a ON ca.asset_id = a.id
     WHERE ca.collection_id = ?
     ORDER BY ca.added_at DESC
-  `).all(req.params.id)
+  `).all(req.params.id) as AssetRow[]
+
+  const assets = assetRows.map(mapAssetRow)
+  const collection = mapCollectionRow(collectionRow)
 
   res.json({ ...collection, assets })
 })
@@ -97,8 +178,8 @@ router.post('/collections/:id/assets', (req: Request, res: Response) => {
   }
 
   const db = getDb()
-  const collection = db.prepare('SELECT * FROM collections WHERE id = ?').get(req.params.id) as any
-  if (!collection) {
+  const row = db.prepare('SELECT * FROM collections WHERE id = ?').get(req.params.id) as CollectionRow | undefined
+  if (!row) {
     return res.status(404).json({ error: 'Collection not found' })
   }
 

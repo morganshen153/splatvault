@@ -7,6 +7,7 @@ import searchRouter from './api/search.js'
 import collectionsRouter from './api/collections.js'
 import tagsRouter from './api/tags.js'
 import projectsRouter from './api/projects.js'
+import exportRouter from './api/export.js'
 import { getDb } from './db/connection.js'
 
 const app = express()
@@ -18,6 +19,9 @@ app.use(express.json())
 // Static files for thumbnails
 app.use('/thumbnails', express.static(join(process.cwd(), '../../data/thumbnails')))
 
+// Static files for exports
+app.use('/exports', express.static(join(process.cwd(), '../../data/exports')))
+
 // API routes
 app.use('/api', healthRouter)
 app.use('/api', assetsRouter)
@@ -25,6 +29,7 @@ app.use('/api', searchRouter)
 app.use('/api', collectionsRouter)
 app.use('/api', tagsRouter)
 app.use('/api', projectsRouter)
+app.use('/api', exportRouter)
 
 // Ensure DB is initialized
 getDb()
