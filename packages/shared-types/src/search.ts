@@ -8,16 +8,18 @@ export interface SearchQuery {
   dateTo?: number
   limit?: number
   offset?: number
-  // 未来扩展
   imageBase64?: string
-  assetType?: 'image' | 'video' | 'text'
-  projectId?: string
-  tags?: string[]
+  imagePath?: string
+  /** If true, use vector search instead of filename LIKE */
+  vector?: boolean
   topK?: number
+  assetType?: 'image' | 'video' | 'text'
 }
 
 export interface SearchResult {
   asset: Asset
-  score: number
+  score?: number
   matchFrameTime?: number
+  /** 'keyword' = filename/LIKE hit, 'vector' = embedding similarity hit */
+  matchType?: 'keyword' | 'vector'
 }

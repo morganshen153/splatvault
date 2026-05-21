@@ -2,7 +2,7 @@
 
 Thanks for your interest in SplatVault.
 
-This project is still in its early product-formation stage, so contribution rules are intentionally simple.
+This project is a product-first repository with a clear public Community Edition and a separate commercial path.
 
 ## Before You Contribute
 
@@ -11,6 +11,7 @@ Please keep in mind:
 - SplatVault is a **product-first** repository, not a general experiment sandbox
 - changes should support the local-first asset search direction
 - avoid introducing unrelated research concepts or branding
+- avoid adding commercial or premium logic to the public Community Edition
 
 ## Contribution Priorities
 
@@ -28,6 +29,7 @@ Lower-priority areas for now:
 - premature plugin systems
 - unrelated AI assistant features
 - branding-heavy concept work
+- commercial-only workflows that belong in private packaging
 
 ## Development Workflow
 
@@ -75,11 +77,12 @@ It is not being built as:
 
 ## Commercial Note
 
-This repository is expected to evolve toward an open-core structure.
+This repository is the public Community Edition foundation.
 
 That means:
 
 - the public repository should remain genuinely useful
-- some future advanced workflows may live in separate commercial packaging
+- premium and commercial workflows belong in separate private packaging
+- commercial production use requires separate licensing
 
-Exact licensing and product-tier rules will be documented separately as the project matures.
+See `LICENSE`, `docs/community-vs-pro.md`, and `docs/release-architecture.md`.

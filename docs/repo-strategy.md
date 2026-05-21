@@ -104,7 +104,7 @@ Default visibility:
 
 ## Current Project Mapping
 
-### `E:\QuantumSplat-V2-Architecture`
+### `QuantumSplat-V2-Architecture`
 
 Classification:
 
@@ -116,7 +116,7 @@ Reason:
 - architecture-first
 - not the main commercial product repository
 
-### `E:\SplatVault`
+### `SplatVault`
 
 Classification:
 

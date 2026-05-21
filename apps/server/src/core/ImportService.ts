@@ -29,6 +29,7 @@ function scanFiles(options: ScanOptions): string[] {
       return
     }
     for (const entry of entries) {
+      if (entry === 'node_modules') continue
       const fullPath = join(dir, entry)
       try {
         const stats = statSync(fullPath)
@@ -132,6 +133,15 @@ export async function runImportTask(taskId: string): Promise<void> {
       // Insert in batches of 500
       for (let i = 0; i < batch.length; i += 500) {
         insertAll(batch.slice(i, i + 500))
+      }
+      // Auto-index newly imported assets in background
+      try {
+        const { indexingService } = await import('./IndexingService.js')
+        for (const item of batch) {
+          indexingService.indexAsset(item.id).catch(() => {})
+        }
+      } catch {
+        // Indexing is optional — import succeeds regardless
       }
     }
 

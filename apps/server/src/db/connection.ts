@@ -1,8 +1,11 @@
 import Database from 'better-sqlite3'
 import { existsSync, mkdirSync } from 'fs'
-import { dirname } from 'path'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 
-const DB_PATH = process.env.DB_PATH || '../../data/splatvault.db'
+const __dirname = dirname(fileURLToPath(import.meta.url))
+// Default to project-root/data/splatvault.db when running from dist or src
+const DB_PATH = process.env.DB_PATH || join(__dirname, '..', '..', '..', '..', '..', '..', '..', 'data', 'splatvault.db')
 
 let db: Database.Database | null = null
 
@@ -17,6 +20,7 @@ export function getDb(): Database.Database {
   db = new Database(DB_PATH)
   db.pragma('journal_mode = WAL')
   initSchema()
+  migrateV1()
 
   return db
 }
@@ -91,5 +95,42 @@ function initSchema() {
       FOREIGN KEY (asset_id) REFERENCES assets(id) ON DELETE CASCADE,
       FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS video_frames (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      asset_id TEXT NOT NULL,
+      frame_index INTEGER NOT NULL,
+      time_seconds REAL NOT NULL,
+      thumbnail_path TEXT,
+      FOREIGN KEY (asset_id) REFERENCES assets(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_video_frames_asset ON video_frames(asset_id);
   `)
+}
+
+/** Migration v1: add frame_time to asset_embeddings PK to support multi-frame video */
+function migrateV1() {
+  if (!db) return
+  const row = db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='asset_embeddings'").get() as { sql: string } | undefined
+  if (!row) return
+  // Already migrated if PK mentions frame_time
+  if (row.sql.includes('frame_time,')) return
+
+  db.exec(`
+    CREATE TABLE asset_embeddings_new (
+      asset_id TEXT NOT NULL,
+      model TEXT NOT NULL,
+      vector BLOB NOT NULL,
+      source TEXT NOT NULL,
+      frame_time REAL,
+      PRIMARY KEY (asset_id, model, source, frame_time),
+      FOREIGN KEY (asset_id) REFERENCES assets(id) ON DELETE CASCADE
+    );
+    INSERT INTO asset_embeddings_new SELECT * FROM asset_embeddings;
+    DROP TABLE asset_embeddings;
+    ALTER TABLE asset_embeddings_new RENAME TO asset_embeddings;
+  `)
+  // Clean up any rows with wrong model label (e.g. local-fallback stored as clip)
+  db.exec("DELETE FROM asset_embeddings WHERE model = 'clip-vit-base-patch32' AND length(vector) != 2048")
 }

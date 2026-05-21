@@ -4,11 +4,12 @@ import { AssetList } from './components/AssetList.js'
 import { ImportForm } from './components/ImportForm.js'
 import { SearchPage } from './pages/SearchPage.js'
 import { ImportPage } from './pages/ImportPage.js'
+import { WorkspacePage } from './pages/WorkspacePage.js'
 import { AssetDetail } from './components/AssetDetail.js'
 
 const API_BASE = '/api'
 
-type Tab = 'home' | 'search' | 'assets' | 'import' | 'batch-import'
+type Tab = 'home' | 'search' | 'assets' | 'import' | 'batch-import' | 'workspace'
 
 function App() {
   const [health, setHealth] = useState<HealthResponse | null>(null)
@@ -47,6 +48,7 @@ function App() {
     { id: 'home', label: '首页' },
     { id: 'search', label: '搜索' },
     { id: 'assets', label: '资产' },
+    { id: 'workspace', label: '工作台' },
     { id: 'import', label: '导入' },
     { id: 'batch-import', label: '批量导入' },
   ]
@@ -157,6 +159,16 @@ function App() {
               }}>
                 浏览资产
               </button>
+              <button onClick={() => setActiveTab('workspace')} style={{
+                padding: '0.75rem 1.5rem',
+                background: '#fff',
+                border: '1px solid #ddd',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '0.95rem'
+              }}>
+                管理工作台
+              </button>
               <button onClick={() => setActiveTab('import')} style={{
                 padding: '0.75rem 1.5rem',
                 background: '#fff',
@@ -190,6 +202,12 @@ function App() {
         {activeTab === 'import' && (
           <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #e5e5e5', padding: '1.5rem' }}>
             <ImportForm onSuccess={handleImportSuccess} />
+          </div>
+        )}
+
+        {activeTab === 'workspace' && (
+          <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #e5e5e5' }}>
+            <WorkspacePage apiBase={API_BASE} onAssetClick={asset => setSelectedAsset(asset)} />
           </div>
         )}
 

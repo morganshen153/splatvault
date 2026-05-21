@@ -48,13 +48,13 @@ SplatVault is **not** intended to be:
 - a generic AI chatbot
 - a "quantum / consciousness / qimen" concept product
 
-## Community vs Future Pro Direction
+## Community vs Pro Direction
 
-The current repository is the foundation for the community product surface.
+The current repository is the foundation for the public Community Edition.
 
 Planned split:
 
-| Feature | Community | Future Pro |
+| Feature | Community | Pro |
 |---|---|---|
 | Local single-user install | Yes | Yes |
 | Image / video / text asset import | Yes | Yes |
@@ -72,7 +72,11 @@ Current development stage:
 
 - P0 completed
 - P1 completed
-- P2 next
+- P2 completed
+- P3 completed
+- P4 completed
+- P5 completed
+- current launch posture: `P2 preview-ready`, with stronger internal progress already in place
 
 P0 currently covers:
 
@@ -89,6 +93,21 @@ P1 currently covers:
 - typed `AssetStore` mapping
 - thumbnail generation path
 - basic asset listing support
+
+P2 currently covers:
+
+- import page
+- asset grid with thumbnails
+- asset detail modal
+- top navigation bar
+- stats cards on the home page
+
+P3-P5 currently cover:
+
+- independent search API and filters
+- batch collection/tag/export workflows
+- real batch import with progress polling
+- stronger product workflow foundations for a preview release
 
 ## Repository Structure
 
@@ -130,10 +149,10 @@ Default local ports:
 Near-term priorities:
 
 1. asset storage and CRUD hardening
-2. local import pipeline
-3. thumbnail generation
-4. search workspace basics
-5. video frame extraction foundation
+2. multimodal search hardening
+3. video frame indexing
+4. binary packaging
+5. preview release polish
 
 See [ROADMAP.md](./ROADMAP.md) for the current phased plan.
 
@@ -141,11 +160,23 @@ See [ROADMAP.md](./ROADMAP.md) for the current phased plan.
 
 - [Product Definition](./docs/product-definition.md)
 - [Repository Strategy](./docs/repo-strategy.md)
+- [Community vs Pro](./docs/community-vs-pro.md)
+- [Public vs Private Repos](./docs/public-vs-private-repos.md)
+- [Release Architecture](./docs/release-architecture.md)
+- [Distribution Plan](./docs/distribution-plan.md)
+- [Binary Cut Split](./docs/binary-cut-split.md)
+- [GitHub Release Checklist](./docs/github-release-checklist.md)
 - [Roadmap](./ROADMAP.md)
 - [Changelog](./CHANGELOG.md)
 
 ## License
 
-License strategy is not finalized yet.
+SplatVault is currently planned for a source-visible commercial model built around `Business Source License 1.1 (BUSL-1.1)`.
 
-This repository is currently under active product formation, and licensing / open-core packaging decisions will be documented before public release.
+That means:
+
+- the repository can be public for discovery and evaluation
+- commercial production use requires a separate commercial license
+- future releases may move to the Change License on the timeline defined in `LICENSE`
+
+See [LICENSE](./LICENSE) and [Community vs Pro](./docs/community-vs-pro.md).

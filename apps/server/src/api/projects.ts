@@ -56,6 +56,26 @@ router.get('/projects/:id', (req: Request, res: Response) => {
   res.json(mapProject(project))
 })
 
+// Update project
+router.put('/projects/:id', (req: Request, res: Response) => {
+  const { name, description, rootPath } = req.body
+  if (!name) {
+    return res.status(400).json({ error: 'name is required' })
+  }
+
+  const db = getDb()
+  const row = db.prepare('SELECT * FROM projects WHERE id = ?').get(req.params.id) as ProjectRow | undefined
+  if (!row) {
+    return res.status(404).json({ error: 'Project not found' })
+  }
+
+  db.prepare('UPDATE projects SET name = ?, description = ?, root_path = ? WHERE id = ?')
+    .run(name, description ?? row.description, rootPath ?? row.root_path, req.params.id)
+
+  const updated = db.prepare('SELECT * FROM projects WHERE id = ?').get(req.params.id) as ProjectRow
+  res.json(mapProject(updated))
+})
+
 // Delete project
 router.delete('/projects/:id', (req: Request, res: Response) => {
   const db = getDb()
