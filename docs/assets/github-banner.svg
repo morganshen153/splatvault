@@ -1,0 +1,72 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="92" y1="58" x2="1188" y2="594" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4E3C1"/>
+      <stop offset="0.45" stop-color="#D7E2D3"/>
+      <stop offset="1" stop-color="#AFC6D9"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="834" y1="118" x2="1148" y2="412" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFF4D8"/>
+      <stop offset="1" stop-color="#F7D7A7"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1280" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#1E293B" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="1232" height="592" rx="36" fill="url(#bg)"/>
+  <circle cx="1108" cy="102" r="82" fill="#F6C76D" fill-opacity="0.42"/>
+  <circle cx="1014" cy="522" r="120" fill="#88A9C3" fill-opacity="0.18"/>
+  <circle cx="190" cy="530" r="144" fill="#F2D2B5" fill-opacity="0.28"/>
+
+  <g filter="url(#shadow)">
+    <rect x="78" y="86" width="1124" height="468" rx="28" fill="#FFFDF8" fill-opacity="0.76"/>
+  </g>
+
+  <rect x="116" y="124" width="230" height="42" rx="21" fill="#0F172A"/>
+  <text x="136" y="152" fill="#FFFDF8" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">PUBLIC PREVIEW</text>
+
+  <text x="116" y="246" fill="#0F172A" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="700">SplatVault</text>
+  <text x="122" y="292" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="600">Local-first multimodal asset search</text>
+  <text x="122" y="326" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="600">for 3D, video, scan, and AI data workflows</text>
+
+  <text x="122" y="394" fill="#0F172A" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">Search your local asset library by meaning,</text>
+  <text x="122" y="434" fill="#0F172A" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">not filenames.</text>
+
+  <rect x="122" y="474" width="208" height="52" rx="26" fill="#D97706"/>
+  <text x="150" y="507" fill="#FFFDF8" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Community Edition</text>
+
+  <rect x="354" y="474" width="176" height="52" rx="26" fill="#E2E8F0"/>
+  <text x="393" y="507" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700">Not a renderer</text>
+
+  <g>
+    <rect x="760" y="122" width="360" height="364" rx="28" fill="url(#panel)"/>
+    <rect x="782" y="146" width="316" height="52" rx="16" fill="#111827"/>
+    <circle cx="810" cy="172" r="7" fill="#F97316"/>
+    <circle cx="833" cy="172" r="7" fill="#FACC15"/>
+    <circle cx="856" cy="172" r="7" fill="#10B981"/>
+    <rect x="884" y="157" width="188" height="28" rx="14" fill="#1F2937"/>
+    <text x="902" y="176" fill="#CBD5E1" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="600">Search local assets</text>
+
+    <rect x="786" y="222" width="146" height="96" rx="18" fill="#20354A"/>
+    <rect x="946" y="222" width="146" height="96" rx="18" fill="#314C63"/>
+    <rect x="786" y="332" width="146" height="96" rx="18" fill="#6A8AA4"/>
+    <rect x="946" y="332" width="146" height="96" rx="18" fill="#DAB178"/>
+
+    <rect x="808" y="246" width="78" height="12" rx="6" fill="#F8FAFC" fill-opacity="0.9"/>
+    <rect x="808" y="268" width="52" height="10" rx="5" fill="#F8FAFC" fill-opacity="0.55"/>
+    <rect x="968" y="246" width="88" height="12" rx="6" fill="#F8FAFC" fill-opacity="0.9"/>
+    <rect x="968" y="268" width="62" height="10" rx="5" fill="#F8FAFC" fill-opacity="0.55"/>
+    <rect x="808" y="356" width="80" height="12" rx="6" fill="#F8FAFC" fill-opacity="0.9"/>
+    <rect x="808" y="378" width="56" height="10" rx="5" fill="#F8FAFC" fill-opacity="0.55"/>
+    <rect x="968" y="356" width="84" height="12" rx="6" fill="#F8FAFC" fill-opacity="0.92"/>
+    <rect x="968" y="378" width="60" height="10" rx="5" fill="#F8FAFC" fill-opacity="0.55"/>
+  </g>
+
+  <rect x="710" y="458" width="208" height="42" rx="21" fill="url(#chip)"/>
+  <text x="740" y="485" fill="#7C2D12" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="700">video / scan / image / text</text>
+</svg>

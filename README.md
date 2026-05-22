@@ -1,5 +1,7 @@
 # SplatVault
 
+![SplatVault banner](docs/assets/github-banner.svg)
+
 **Local-first multimodal asset search for 3D, video, scan, and AI data workflows**
 
 SplatVault helps teams find local assets without relying on filenames alone.
