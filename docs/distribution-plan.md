@@ -12,7 +12,7 @@ Goal:
 
 Repository:
 
-- `product-splatvault`
+- `splatvault`
 
 Contains:
 

@@ -1,10 +1,12 @@
 # SplatVault
 
-**Local-first multimodal asset search for 3D, video, and scan teams**
+**Local-first multimodal asset search for 3D, video, scan, and AI data workflows**
 
-SplatVault helps teams search local images, video clips, scan-related assets, and project files without relying on filenames alone.
+SplatVault helps teams find local assets without relying on filenames alone.
 
-It is designed for workflows where assets are scattered across folders, long videos are hard to navigate, and historical project material is difficult to reuse.
+This public preview is built for 3D, video, scan, and AI data workflows where assets are scattered across folders, long videos are hard to navigate, and historical project material is difficult to reuse.
+
+Community Edition is live first. Pro will split later.
 
 ## Why SplatVault
 
@@ -76,7 +78,7 @@ Current development stage:
 - P3 completed
 - P4 completed
 - P5 completed
-- current launch posture: `P2 preview-ready`, with stronger internal progress already in place
+- current launch posture: `Public Preview`
 
 P0 currently covers:
 

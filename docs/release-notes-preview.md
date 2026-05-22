@@ -54,3 +54,8 @@ Near-term work is expected to focus on:
 - easier public-preview packaging
 - clearer Community vs Pro separation
 - better video-centric workflows
+
+## Preview Assets
+
+- `splatvault-portable-preview.zip`
+- `splatvault-update-preview.zip`
